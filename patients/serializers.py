@@ -6,7 +6,7 @@ class patientSerializer(serializers.HyperlinkedModelSerializer):
 	owner = serializers.ReadOnlyField(source='owner.username')
 
 	#highlight = serializers.HyperlinkedIdentityField(
-       #view_name='patient-highlight', format='html')
+       # view_name='patient-highlight', format='html')
 	
 	class Meta:
 		model = patient
@@ -28,3 +28,9 @@ class PrescriptionSerializer(serializers.ModelSerializer):
 		model = Prescription
 		fields = '__all__'
 
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+	patient = serializers.PrimaryKeyRelatedField(many=True, queryset=Prescription.objects.all())
+
+	class Meta:
+		model = User
+		fields = ('id', 'username', 'patient')
